@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { queries } from './api/queries';
-import { commands } from './api/commands';
+import { queries, commands } from './api';
 import { applyQueryKeys } from './queryKeys';
 
 export function useCenters() {
