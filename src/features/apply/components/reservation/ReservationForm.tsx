@@ -5,7 +5,7 @@ import { useApplyStore } from '../../store/useApplyStore';
 import { useCenters, useTimeSlots, useHolidays } from '../../hooks';
 import { ReservationInfo, type ReservationInfoT } from '../../schemas';
 
-export default function StepReservation({ onValid, onPrev }: { onValid: () => void; onPrev?: () => void }) {
+export default function ReservationForm({ onValid, onPrev }: { onValid: () => void; onPrev?: () => void }) {
   const { reservation, setReservation } = useApplyStore();
   const { data: centers } = useCenters();
   const { data: holidays } = useHolidays();

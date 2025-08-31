@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useApplyStore } from '../../store/useApplyStore';
 import { ShippingInfo, type ShippingInfoT } from '../../schemas';
 
-export default function StepShipping({ onValid, onPrev }: { onValid: () => void; onPrev?: () => void }) {
+export default function ShippingForm({ onValid, onPrev }: { onValid: () => void; onPrev?: () => void }) {
   const { shipping, setShipping } = useApplyStore();
 
   const {

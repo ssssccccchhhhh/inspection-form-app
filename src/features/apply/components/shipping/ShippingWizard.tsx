@@ -1,8 +1,8 @@
 import { useApplyStore } from '../../store/useApplyStore';
-import StepShipping from './StepShipping';
-import StepExaminee from '../StepExaminee';
-import StepAgreements from '../StepAgreements';
-import StepShippingReview from './StepShippingReview';
+import ShippingForm from './ShippingForm';
+import ExamineeForm from '../shared/ExamineeForm';
+import AgreementsForm from '../shared/AgreementsForm';
+import ShippingReview from './ShippingReview';
 
 export default function ShippingWizard() {
   const { step, next, prev } = useApplyStore();
@@ -10,10 +10,10 @@ export default function ShippingWizard() {
   return (
     <div style={{ maxWidth: 560, margin: '24px auto', display:'grid', gap: 12 }}>
       <Progress step={step} />
-      {step === 0 && <StepShipping onValid={next} />}
-      {step === 1 && <StepExaminee onValid={next} onPrev={prev} />}
-      {step === 2 && <StepAgreements onValid={next} onPrev={prev} />}
-      {step === 3 && <StepShippingReview onPrev={prev} onDone={() => {}} />}
+      {step === 0 && <ShippingForm onValid={next} />}
+      {step === 1 && <ExamineeForm onValid={next} onPrev={prev} />}
+      {step === 2 && <AgreementsForm onValid={next} onPrev={prev} />}
+      {step === 3 && <ShippingReview onPrev={prev} onDone={() => {}} />}
     </div>
   );
 }

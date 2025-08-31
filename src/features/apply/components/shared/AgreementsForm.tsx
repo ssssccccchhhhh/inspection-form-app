@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useApplyStore } from '../store/useApplyStore';
-import { Agreements, type AgreementsT } from '../schemas';
+import { useApplyStore } from '../../store/useApplyStore';
+import { Agreements, type AgreementsT } from '../../schemas';
 
-export default function StepAgreements({ onValid, onPrev }: { onValid: () => void; onPrev: () => void }) {
+export default function AgreementsForm({ onValid, onPrev }: { onValid: () => void; onPrev: () => void }) {
   const { agreements, setAgreements } = useApplyStore();
 
   const {

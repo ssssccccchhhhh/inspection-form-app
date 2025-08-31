@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useApplyStore } from '../store/useApplyStore';
-import { PersonInfo, type PersonInfoT } from '../schemas';
+import { useApplyStore } from '../../store/useApplyStore';
+import { PersonInfo, type PersonInfoT } from '../../schemas';
 
-export default function StepExaminee({ onValid, onPrev }: { onValid: () => void; onPrev: () => void }) {
+export default function ExamineeForm({ onValid, onPrev }: { onValid: () => void; onPrev: () => void }) {
   const { person, setPerson } = useApplyStore();
 
   const {

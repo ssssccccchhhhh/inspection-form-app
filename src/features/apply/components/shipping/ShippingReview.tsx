@@ -1,21 +1,20 @@
 import { useApplyStore } from '../../store/useApplyStore';
-import { ReservationApplyPayload } from '../../schemas';
-import { useCreateApplication, useCenters } from '../../hooks';
+import { ShippingApplyPayload } from '../../schemas';
+import { useCreateApplication } from '../../hooks';
 
-export default function StepReservationReview({ onPrev, onDone }: { onPrev: () => void; onDone: (id: string) => void }) {
-  const { reservation, person, agreements, setApplicationResult } = useApplyStore();
-  const { data: centers } = useCenters();
+export default function ShippingReview({ onPrev, onDone }: { onPrev: () => void; onDone: (id: string) => void }) {
+  const { shipping, person, agreements, setApplicationResult } = useApplyStore();
   const { mutate, isPending } = useCreateApplication();
 
   const submit = () => {
     const payload = {
-      inspectionType: 'RESERVATION' as const,
-      reservation,
+      inspectionType: 'SHIPPING' as const,
+      shipping,
       person,
       agreements,
     };
     
-    const parsed = ReservationApplyPayload.safeParse(payload);
+    const parsed = ShippingApplyPayload.safeParse(payload);
     if (!parsed.success) {
       alert(parsed.error.issues[0]?.message ?? '입력값을 확인해 주세요.');
       return;
@@ -37,12 +36,12 @@ export default function StepReservationReview({ onPrev, onDone }: { onPrev: () =
 
   return (
     <div style={{ display:'grid', gap: 8 }}>
-      <h3>예약 신청 확인</h3>
+      <h3>배송 신청 확인</h3>
       <div style={{ background:'#f6f6f6', padding: 12, borderRadius: 6 }}>
-        <h4>예약 정보</h4>
-        <p>센터: {centers?.find(c => c.id === reservation.centerId)?.name || reservation.centerId}</p>
-        <p>날짜: {reservation.date}</p>
-        <p>시간: {reservation.time}</p>
+        <h4>배송 정보</h4>
+        <p>수령인: {shipping.receiver}</p>
+        <p>연락처: {shipping.phone}</p>
+        <p>주소: {shipping.address}</p>
         
         <h4>검사 대상자 정보</h4>
         <p>이름: {person.name}</p>
@@ -58,7 +57,7 @@ export default function StepReservationReview({ onPrev, onDone }: { onPrev: () =
       <div style={{ display:'flex', gap: 8 }}>
         <button onClick={onPrev}>이전</button>
         <button onClick={submit} disabled={isPending}>
-          {isPending ? '신청 중...' : '예약 신청하기'}
+          {isPending ? '신청 중...' : '배송 신청하기'}
         </button>
       </div>
     </div>
