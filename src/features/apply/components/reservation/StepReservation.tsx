@@ -1,18 +1,22 @@
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useApplyStore } from '../../store/useApplyStore';
-import { useCenters, useSlots } from '../../hooks';
+import { useCenters, useSlots, useHolidays } from '../../hooks';
 import { ReservationInfo, type ReservationInfoT } from '../../schemas';
 
 export default function StepReservation({ onValid, onPrev }: { onValid: () => void; onPrev?: () => void }) {
   const { reservation, setReservation } = useApplyStore();
   const { data: centers } = useCenters();
+  const { data: holidays } = useHolidays();
+  const [holidayError, setHolidayError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
+    setValue
   } = useForm<ReservationInfoT>({
     resolver: zodResolver(ReservationInfo),
     defaultValues: reservation,
@@ -30,6 +34,22 @@ export default function StepReservation({ onValid, onPrev }: { onValid: () => vo
     setReservation(data);
     onValid();
   };
+
+  // Get today's date and minimum selectable date (today + 1 day)
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  const minDate = tomorrow.toISOString().split('T')[0];
+
+  // Check if a date is a holiday
+  const isHoliday = useCallback((dateString: string) => {
+    return holidays?.some(holiday => holiday.date === dateString);
+  }, [holidays]);
+
+  // Get holiday name for a date
+  const getHolidayName = useCallback((dateString: string) => {
+    return holidays?.find(holiday => holiday.date === dateString)?.name;
+  }, [holidays]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ display:'grid', gap: 8 }}>
@@ -50,11 +70,28 @@ export default function StepReservation({ onValid, onPrev }: { onValid: () => vo
       <div>
         <input
           type="date"
-          {...register('date')}
+          min={minDate}
+          {...register('date', {
+            onChange: (e) => {
+              // Check if selected date is a holiday
+              if (isHoliday(e.target.value)) {
+                const holidayName = getHolidayName(e.target.value);
+                setHolidayError(`${e.target.value}(${holidayName})로 예약이 불가능합니다. 다른 날짜를 선택해 주세요.`);
+                setValue('date', ''); // Clear the form value
+                return;
+              }
+              setHolidayError(null); // Clear holiday error
+            }
+          })}
         />
         {errors.date && (
           <div style={{ color: 'red', fontSize: 12, marginTop: 4 }}>
             {errors.date.message}
+          </div>
+        )}
+        {holidayError && (
+          <div style={{ color: 'red', fontSize: 12, marginTop: 4 }}>
+            📅 {holidayError}
           </div>
         )}
       </div>
