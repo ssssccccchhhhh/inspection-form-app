@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useApplyStore } from '../../store/useApplyStore';
-import { useCenters, useSlots, useHolidays } from '../../hooks';
+import { useCenters, useTimeSlots, useHolidays } from '../../hooks';
 import { ReservationInfo, type ReservationInfoT } from '../../schemas';
 
 export default function StepReservation({ onValid, onPrev }: { onValid: () => void; onPrev?: () => void }) {
@@ -28,7 +28,7 @@ export default function StepReservation({ onValid, onPrev }: { onValid: () => vo
   const watchedDate = watch('date');
 
   // Use watched values for slots query
-  const { data: slots } = useSlots(watchedCenterId, watchedDate);
+  const { data: slots } = useTimeSlots(watchedCenterId, watchedDate);
 
   const onSubmit = (data: ReservationInfoT) => {
     setReservation(data);

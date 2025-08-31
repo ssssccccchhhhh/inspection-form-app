@@ -1,39 +1,39 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createApplication, fetchCenters, fetchSlots, fetchHolidays } from './api';
-
-export const qk = {
-  centers: ['centers'] as const,
-  slots: (centerId: string, date: string) => ['slots', centerId, date] as const,
-  holidays: ['holidays'] as const,
-};
+import { queries } from './api/queries';
+import { commands } from './api/commands';
+import { applyQueryKeys } from './queryKeys';
 
 export function useCenters() {
-  return useQuery({ queryKey: qk.centers, queryFn: fetchCenters });
-}
-
-export function useSlots(centerId?: string, date?: string) {
-  const enabled = !!centerId && !!date;
-  return useQuery({
-    queryKey: qk.slots(centerId ?? '', date ?? ''),
-    queryFn: () => fetchSlots(centerId!, date!),
-    enabled,
+  return useQuery({ 
+    queryKey: applyQueryKeys.centers(), 
+    queryFn: queries.getCenters,
+    staleTime: 24 * 60 * 60 * 1000, // 24 hours
   });
 }
 
 export function useHolidays() {
   return useQuery({
-    queryKey: qk.holidays,
-    queryFn: fetchHolidays,
+    queryKey: applyQueryKeys.holidays(),
+    queryFn: queries.getHolidays,
     staleTime: 24 * 60 * 60 * 1000, // 24 hours
+  });
+}
+
+export function useTimeSlots(centerId?: string, date?: string) {
+  const enabled = !!centerId && !!date;
+  return useQuery({
+    queryKey: applyQueryKeys.timeSlot(centerId ?? '', date ?? ''),
+    queryFn: () => queries.getSlots(centerId!, date!),
+    enabled,
   });
 }
 
 export function useCreateApplication() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: createApplication,
+    mutationFn: commands.createApplication,
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: qk.centers });
+      qc.invalidateQueries({ queryKey: applyQueryKeys.centers() });
     },
   });
 }

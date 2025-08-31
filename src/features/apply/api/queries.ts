@@ -1,4 +1,4 @@
-import type { ExamCenter, Slot, Holiday } from './types';
+import type { ExamCenter, TimeSlot, Holiday } from './types';
 
 export const queries = {
   getCenters: async (): Promise<ExamCenter[]> => {
@@ -12,7 +12,7 @@ export const queries = {
     });
   },
 
-  getSlots: async (_centerId: string, _date: string): Promise<Slot[]> => {
+  getSlots: async (_centerId: string, _date: string): Promise<TimeSlot[]> => {
     return new Promise((resolve) => {
       setTimeout(() => {
         const timeSlots = [
