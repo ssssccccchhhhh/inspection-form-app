@@ -8,7 +8,6 @@ export default function StepReservationReview({ onPrev, onDone }: { onPrev: () =
   const { mutate, isPending } = useCreateApplication();
 
   const submit = () => {
-    debugger;
     const payload = {
       inspectionType: 'RESERVATION' as const,
       reservation,

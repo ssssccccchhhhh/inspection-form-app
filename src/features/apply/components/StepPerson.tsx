@@ -1,29 +1,72 @@
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useApplyStore } from '../store/useApplyStore';
-import { PersonInfo } from '../schemas';
+import { PersonInfo, type PersonInfoT } from '../schemas';
 
 export default function StepPerson({ onValid, onPrev }: { onValid: () => void; onPrev: () => void }) {
   const { person, setPerson } = useApplyStore();
 
-  const validate = () => {
-    const parsed = PersonInfo.safeParse(person);
-    if (!parsed.success) {
-      alert(parsed.error.issues[0]?.message ?? '검사자 정보를 확인해 주세요.');
-      return;
-    }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<PersonInfoT>({
+    resolver: zodResolver(PersonInfo),
+    defaultValues: person,
+    mode: 'onChange'
+  });
+
+  // Remove the useEffect that was causing infinite loop
+
+  const onSubmit = (data: PersonInfoT) => {
+    setPerson(data);
     onValid();
   };
 
   return (
-    <div style={{ display:'grid', gap: 8 }}>
-      <h3>2) 검사자 정보</h3>
-      <input placeholder="이름" value={person.name} onChange={e => setPerson({ name: e.target.value })} />
-      <input placeholder="생년월일(YYYYMMDD)" value={person.birth} onChange={e => setPerson({ birth: e.target.value })} />
-      <input placeholder="연락처" value={person.phone} onChange={e => setPerson({ phone: e.target.value })} />
+    <form onSubmit={handleSubmit(onSubmit)} style={{ display:'grid', gap: 8 }}>
+      <h3>검사자 정보</h3>
+      
+      <div>
+        <input 
+          placeholder="이름" 
+          {...register('name')} 
+        />
+        {errors.name && (
+          <div style={{ color: 'red', fontSize: 12, marginTop: 4 }}>
+            {errors.name.message}
+          </div>
+        )}
+      </div>
+      
+      <div>
+        <input 
+          placeholder="생년월일(YYYYMMDD)" 
+          {...register('birth')}
+        />
+        {errors.birth && (
+          <div style={{ color: 'red', fontSize: 12, marginTop: 4 }}>
+            {errors.birth.message}
+          </div>
+        )}
+      </div>
+      
+      <div>
+        <input 
+          placeholder="연락처" 
+          {...register('phone')}
+        />
+        {errors.phone && (
+          <div style={{ color: 'red', fontSize: 12, marginTop: 4 }}>
+            {errors.phone.message}
+          </div>
+        )}
+      </div>
 
       <div style={{ display:'flex', gap: 8 }}>
-        <button onClick={onPrev}>이전</button>
-        <button onClick={validate}>다음</button>
+        <button type="button" onClick={onPrev}>이전</button>
+        <button type="submit">다음</button>
       </div>
-    </div>
+    </form>
   );
 }

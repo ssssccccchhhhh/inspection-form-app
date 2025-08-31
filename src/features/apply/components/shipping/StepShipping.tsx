@@ -1,44 +1,72 @@
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useApplyStore } from '../../store/useApplyStore';
-import { ShippingInfo } from '../../schemas';
+import { ShippingInfo, type ShippingInfoT } from '../../schemas';
 
 export default function StepShipping({ onValid, onPrev }: { onValid: () => void; onPrev?: () => void }) {
   const { shipping, setShipping } = useApplyStore();
 
-  const validate = () => {
-    const parsed = ShippingInfo.safeParse(shipping);
-    if (!parsed.success) {
-      alert(parsed.error.issues[0]?.message ?? '배송 정보를 확인해 주세요.');
-      return;
-    }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<ShippingInfoT>({
+    resolver: zodResolver(ShippingInfo),
+    defaultValues: shipping,
+    mode: 'onChange'
+  });
+
+  // Remove the useEffect that was causing infinite loop
+
+  const onSubmit = (data: ShippingInfoT) => {
+    setShipping(data);
     onValid();
   };
 
   return (
-    <div style={{ display:'grid', gap: 8 }}>
+    <form onSubmit={handleSubmit(onSubmit)} style={{ display:'grid', gap: 8 }}>
       <h3>배송 정보</h3>
       
-      <input
-        placeholder="수령인"
-        value={shipping.receiver}
-        onChange={e => setShipping({ receiver: e.target.value })}
-      />
+      <div>
+        <input
+          placeholder="수령인"
+          {...register('receiver')}
+        />
+        {errors.receiver && (
+          <div style={{ color: 'red', fontSize: 12, marginTop: 4 }}>
+            {errors.receiver.message}
+          </div>
+        )}
+      </div>
       
-      <input
-        placeholder="연락처"
-        value={shipping.phone}
-        onChange={e => setShipping({ phone: e.target.value })}
-      />
+      <div>
+        <input
+          placeholder="연락처"
+          {...register('phone')}
+        />
+        {errors.phone && (
+          <div style={{ color: 'red', fontSize: 12, marginTop: 4 }}>
+            {errors.phone.message}
+          </div>
+        )}
+      </div>
       
-      <input
-        placeholder="주소"
-        value={shipping.address}
-        onChange={e => setShipping({ address: e.target.value })}
-      />
+      <div>
+        <input
+          placeholder="주소"
+          {...register('address')}
+        />
+        {errors.address && (
+          <div style={{ color: 'red', fontSize: 12, marginTop: 4 }}>
+            {errors.address.message}
+          </div>
+        )}
+      </div>
 
       <div style={{ display:'flex', gap: 8 }}>
-        {onPrev && <button onClick={onPrev}>이전</button>}
-        <button onClick={validate}>다음</button>
+        {onPrev && <button type="button" onClick={onPrev}>이전</button>}
+        <button type="submit">다음</button>
       </div>
-    </div>
+    </form>
   );
 }

@@ -7,7 +7,6 @@ export default function StepShippingReview({ onPrev, onDone }: { onPrev: () => v
   const { mutate, isPending } = useCreateApplication();
 
   const submit = () => {
-    debugger;
     const payload = {
       inspectionType: 'SHIPPING' as const,
       shipping,
