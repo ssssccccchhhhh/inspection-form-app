@@ -14,21 +14,19 @@
 │   ├── assets
 │   │   └── react.svg
 │   ├── features
-│   │   ├── apply
+│   │   ├── application
+│   │   │   ├── api.ts
 │   │   │   ├── components
-│   │   │   │   ├── ApplyWizard.tsx
-│   │   │   │   ├── reservation
+│   │   │   │   ├── apply
+│   │   │   │   │   ├── AgreementsForm.tsx
+│   │   │   │   │   ├── ExamineeForm.tsx
 │   │   │   │   │   ├── ReservationForm.tsx
 │   │   │   │   │   ├── ReservationReview.tsx
-│   │   │   │   │   └── ReservationWizard.tsx
-│   │   │   │   ├── shared
-│   │   │   │   │   ├── AgreementsForm.tsx
-│   │   │   │   │   └── ExamineeForm.tsx
-│   │   │   │   └── shipping
-│   │   │   │       ├── ShippingForm.tsx
-│   │   │   │       ├── ShippingReview.tsx
-│   │   │   │       └── ShippingWizard.tsx
-│   │   │   ├── api.ts
+│   │   │   │   │   ├── ReservationWizard.tsx
+│   │   │   │   │   ├── ShippingForm.tsx
+│   │   │   │   │   ├── ShippingReview.tsx
+│   │   │   │   │   └── ShippingWizard.tsx
+│   │   │   │   └── ApplyWizard.tsx
 │   │   │   ├── hooks.ts
 │   │   │   ├── queryKeys.ts
 │   │   │   ├── schemas.ts
@@ -41,6 +39,8 @@
 │   ├── pages
 │   │   ├── ApplyPage.tsx
 │   │   └── SuccessPage.tsx
+│   ├── routes
+│   ├── shared
 │   └── vite-env.d.ts
 ├── tree-20250831.txt
 ├── tsconfig.app.json
