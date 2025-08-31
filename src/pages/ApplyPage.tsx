@@ -1,4 +1,4 @@
-import ApplyWizard from '../features/apply/components/ApplyWizard';
+import ApplyWizard from '../features/application/components/ApplyWizard';
 
 export default function ApplyPage() {
   return (
