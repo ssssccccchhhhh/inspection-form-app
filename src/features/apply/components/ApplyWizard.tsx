@@ -1,6 +1,6 @@
 import { useApplyStore } from '../store/useApplyStore';
-import ReservationWizard from './reservation/ReservationWizard';
-import ShippingWizard from './shipping/ShippingWizard';
+import ReservationWizard from './apply/ReservationWizard';
+import ShippingWizard from './apply/ShippingWizard';
 import SuccessPage from '../../../pages/SuccessPage';
 
 export default function ApplyWizard() {

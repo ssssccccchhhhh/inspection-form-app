@@ -1,25 +1,25 @@
 import { useApplyStore } from '../../store/useApplyStore';
-import ShippingForm from './ShippingForm';
-import ExamineeForm from '../shared/ExamineeForm';
-import AgreementsForm from '../shared/AgreementsForm';
-import ShippingReview from './ShippingReview';
+import ReservationForm from './ReservationForm';
+import ExamineeForm from './ExamineeForm';
+import AgreementsForm from './AgreementsForm';
+import ReservationReview from './ReservationReview';
 
-export default function ShippingWizard() {
+export default function ReservationWizard() {
   const { step, next, prev } = useApplyStore();
 
   return (
     <div style={{ maxWidth: 560, margin: '24px auto', display:'grid', gap: 12 }}>
       <Progress step={step} />
-      {step === 0 && <ShippingForm onValid={next} />}
+      {step === 0 && <ReservationForm onValid={next} />}
       {step === 1 && <ExamineeForm onValid={next} onPrev={prev} />}
       {step === 2 && <AgreementsForm onValid={next} onPrev={prev} />}
-      {step === 3 && <ShippingReview onPrev={prev} onDone={() => {}} />}
+      {step === 3 && <ReservationReview onPrev={prev} onDone={() => {}} />}
     </div>
   );
 }
 
 function Progress({ step }: { step: number }) {
-  const labels = ['배송정보', '검사대상자정보', '약관동의', '확인'];
+  const labels = ['예약정보', '검사대상자정보', '약관동의', '확인'];
   return (
     <div style={{ display:'flex', gap: 8 }}>
       {labels.map((l, i) => (
