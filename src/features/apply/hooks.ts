@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createApplication, fetchCenters, fetchSlots } from './api';
+import { createApplication, fetchCenters, fetchSlots, fetchHolidays } from './api';
 
 export const qk = {
   centers: ['centers'] as const,
@@ -23,14 +23,7 @@ export function useSlots(centerId?: string, date?: string) {
 export function useHolidays() {
   return useQuery({
     queryKey: qk.holidays,
-    queryFn: async () => {
-      // Mock holiday data - in real app, this would come from an API
-      return [
-        { date: '2025-09-11', name: '추석 연휴' },
-        { date: '2025-09-12', name: '추석' },
-        { date: '2025-09-13', name: '추석 연휴' },
-      ];
-    },
+    queryFn: fetchHolidays,
     staleTime: 24 * 60 * 60 * 1000, // 24 hours
   });
 }
