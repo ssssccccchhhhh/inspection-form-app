@@ -43,7 +43,7 @@ export default function StepShippingReview({ onPrev, onDone }: { onPrev: () => v
         <p>연락처: {shipping.phone}</p>
         <p>주소: {shipping.address}</p>
         
-        <h4>검사자 정보</h4>
+        <h4>검사 대상자 정보</h4>
         <p>이름: {person.name}</p>
         <p>생년월일: {person.birth}</p>
         <p>연락처: {person.phone}</p>

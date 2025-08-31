@@ -1,6 +1,6 @@
 import { useApplyStore } from '../../store/useApplyStore';
 import StepReservation from './StepReservation';
-import StepPerson from '../StepPerson';
+import StepExaminee from '../StepExaminee';
 import StepAgreements from '../StepAgreements';
 import StepReservationReview from './StepReservationReview';
 
@@ -11,7 +11,7 @@ export default function ReservationWizard() {
     <div style={{ maxWidth: 560, margin: '24px auto', display:'grid', gap: 12 }}>
       <Progress step={step} />
       {step === 0 && <StepReservation onValid={next} />}
-      {step === 1 && <StepPerson onValid={next} onPrev={prev} />}
+      {step === 1 && <StepExaminee onValid={next} onPrev={prev} />}
       {step === 2 && <StepAgreements onValid={next} onPrev={prev} />}
       {step === 3 && <StepReservationReview onPrev={prev} onDone={() => {}} />}
     </div>
@@ -19,7 +19,7 @@ export default function ReservationWizard() {
 }
 
 function Progress({ step }: { step: number }) {
-  const labels = ['예약정보', '검사자정보', '약관동의', '확인'];
+  const labels = ['예약정보', '검사대상자정보', '약관동의', '확인'];
   return (
     <div style={{ display:'flex', gap: 8 }}>
       {labels.map((l, i) => (

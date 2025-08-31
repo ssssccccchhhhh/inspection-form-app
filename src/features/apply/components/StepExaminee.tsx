@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useApplyStore } from '../store/useApplyStore';
 import { PersonInfo, type PersonInfoT } from '../schemas';
 
-export default function StepPerson({ onValid, onPrev }: { onValid: () => void; onPrev: () => void }) {
+export default function StepExaminee({ onValid, onPrev }: { onValid: () => void; onPrev: () => void }) {
   const { person, setPerson } = useApplyStore();
 
   const {
@@ -25,7 +25,7 @@ export default function StepPerson({ onValid, onPrev }: { onValid: () => void; o
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ display:'grid', gap: 8 }}>
-      <h3>검사자 정보</h3>
+      <h3>검사 대상자 정보</h3>
       
       <div>
         <input 
