@@ -3,7 +3,7 @@ import { ReservationApplyPayload } from '../../schemas';
 import { useCreateApplication, useCenters } from '../../hooks';
 
 export default function StepReservationReview({ onPrev, onDone }: { onPrev: () => void; onDone: (id: string) => void }) {
-  const { reservation, person, agreements, reset } = useApplyStore();
+  const { reservation, person, agreements, setApplicationResult } = useApplyStore();
   const { data: centers } = useCenters();
   const { mutate, isPending } = useCreateApplication();
 
@@ -23,7 +23,10 @@ export default function StepReservationReview({ onPrev, onDone }: { onPrev: () =
     
     mutate(parsed.data, {
       onSuccess: (res) => {
-        reset();
+        setApplicationResult({
+          id: res.id,
+          payload: parsed.data
+        });
         onDone(res.id);
       },
       onError: (e: any) => {

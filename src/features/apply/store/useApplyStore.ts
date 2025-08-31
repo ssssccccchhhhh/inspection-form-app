@@ -16,6 +16,10 @@ type State = {
   shipping: ShippingInfoT;
   person: PersonInfoT;
   agreements: AgreementsT;
+  applicationResult: {
+    id: string;
+    payload: any;
+  } | null;
 };
 
 type Actions = {
@@ -26,6 +30,7 @@ type Actions = {
   setShipping: (v: Partial<ShippingInfoT>) => void;
   setPerson: (v: Partial<PersonInfoT>) => void;
   setAgreements: (v: Partial<AgreementsT>) => void;
+  setApplicationResult: (result: { id: string; payload: any }) => void;
   reset: () => void;
 };
 
@@ -36,6 +41,7 @@ const initial: State = {
   shipping: { receiver: '', address: '', phone: '' },
   person: { name: '', birth: '', phone: '' },
   agreements: { terms: false, privacy: false, marketing: false },
+  applicationResult: null,
 };
 
 export const useApplyStore = create<State & Actions>((set) => ({
@@ -47,5 +53,6 @@ export const useApplyStore = create<State & Actions>((set) => ({
   setShipping: (v) => set(s => ({ shipping: { ...s.shipping, ...v }})),
   setPerson: (v) => set(s => ({ person: { ...s.person, ...v }})),
   setAgreements: (v) => set(s => ({ agreements: { ...s.agreements, ...v }})),
+  setApplicationResult: (result) => set({ applicationResult: result }),
   reset: () => set({ ...initial }),
 }));

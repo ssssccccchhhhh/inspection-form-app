@@ -3,7 +3,7 @@ import { ShippingApplyPayload } from '../../schemas';
 import { useCreateApplication } from '../../hooks';
 
 export default function StepShippingReview({ onPrev, onDone }: { onPrev: () => void; onDone: (id: string) => void }) {
-  const { shipping, person, agreements, reset } = useApplyStore();
+  const { shipping, person, agreements, setApplicationResult } = useApplyStore();
   const { mutate, isPending } = useCreateApplication();
 
   const submit = () => {
@@ -22,7 +22,10 @@ export default function StepShippingReview({ onPrev, onDone }: { onPrev: () => v
     
     mutate(parsed.data, {
       onSuccess: (res) => {
-        reset();
+        setApplicationResult({
+          id: res.id,
+          payload: parsed.data
+        });
         onDone(res.id);
       },
       onError: (e: any) => {

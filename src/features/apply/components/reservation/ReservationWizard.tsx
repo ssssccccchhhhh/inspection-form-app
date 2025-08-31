@@ -13,7 +13,7 @@ export default function ReservationWizard() {
       {step === 0 && <StepReservation onValid={next} />}
       {step === 1 && <StepPerson onValid={next} onPrev={prev} />}
       {step === 2 && <StepAgreements onValid={next} onPrev={prev} />}
-      {step === 3 && <StepReservationReview onPrev={prev} onDone={(id) => alert(`예약 신청 완료! 접수번호: ${id}`)} />}
+      {step === 3 && <StepReservationReview onPrev={prev} onDone={() => {}} />}
     </div>
   );
 }

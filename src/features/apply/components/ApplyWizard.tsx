@@ -1,9 +1,21 @@
 import { useApplyStore } from '../store/useApplyStore';
 import ReservationWizard from './reservation/ReservationWizard';
 import ShippingWizard from './shipping/ShippingWizard';
+import SuccessPage from '../../../pages/SuccessPage';
 
 export default function ApplyWizard() {
-  const { inspectionType, setInspectionType, reset } = useApplyStore();
+  const { inspectionType, setInspectionType, applicationResult, reset } = useApplyStore();
+
+  // Show success page if application is completed
+  if (applicationResult) {
+    return (
+      <SuccessPage
+        applicationId={applicationResult.id}
+        payload={applicationResult.payload}
+        onStartNew={reset}
+      />
+    );
+  }
 
   if (!inspectionType) {
     return (
