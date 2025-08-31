@@ -7,19 +7,24 @@ import { ReservationInfo, type ReservationInfoT } from '../../schemas';
 export default function StepReservation({ onValid, onPrev }: { onValid: () => void; onPrev?: () => void }) {
   const { reservation, setReservation } = useApplyStore();
   const { data: centers } = useCenters();
-  const { data: slots } = useSlots(reservation.centerId, reservation.date);
 
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useForm<ReservationInfoT>({
     resolver: zodResolver(ReservationInfo),
     defaultValues: reservation,
     mode: 'onChange'
   });
 
-  // Remove the useEffect that was causing infinite loop
+  // Watch form values to get current centerId and date
+  const watchedCenterId = watch('centerId');
+  const watchedDate = watch('date');
+
+  // Use watched values for slots query
+  const { data: slots } = useSlots(watchedCenterId, watchedDate);
 
   const onSubmit = (data: ReservationInfoT) => {
     setReservation(data);
